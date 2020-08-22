@@ -2,6 +2,11 @@
 
 What I think would be I pythonic Bitrix api wrapper, but may also be an overengineered Bitrix api wrapper.
 
+### Features
+
+- Transparent result paging `bitrix.crm.deal.list()[160]`
+- Native like interface `bitrix.crm.deal.get(ID=<deal_id>)`
+
 ### How I intent it to be.
 
 ```python
