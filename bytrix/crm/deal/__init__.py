@@ -1,0 +1,1 @@
+from .deal import Deal
