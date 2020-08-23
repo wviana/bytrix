@@ -11,6 +11,6 @@ setuptools.setup(
     description="My try to a pythonic Bitrix24 rest api wrapper.",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='',
+    url='https://github.com/wviana/bytrix',
     packages=setuptoo.find_packages(),
 )
