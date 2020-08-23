@@ -11,7 +11,7 @@ What I think would be I pythonic Bitrix api wrapper, but may also be an overengi
 
 ```python
 >>> bitrix = Bitrix('https://crmdevyandeh.bitrix24.com.br/rest/<user_id>/<user_token>')
->>> bitrix.crm.deal.list()
+>>> l = bitrix.crm.deal.list()
 >>> l[0]
 {'ID': '67841',
   'TITLE': 'MASTER ASSOCIACAO DE AVALIACAO DE CONFORMIDADE',
