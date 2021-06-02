@@ -20,7 +20,9 @@ class BitrixResponse:
         self._repr = f'BitrixResponse({reprlib.repr(raw_response)})'
         self.result = raw_response['result']
         self.time = raw_response['time']
-        self.next_request = next_request
+
+        if next_request:
+            self._next_request = next_request
 
         if 'next' in raw_response:
             self.next = raw_response['next']
@@ -44,14 +46,14 @@ class BitrixResponse:
     def __iter__(self):
         yield from iter(self.result)
 
-        if self.next_request:
+        if self._next_request:
             while len(self) < self.total:
                 begin = len(self.result)
                 self._fetch_next_page()
                 yield from iter(self[begin:])
 
     def _fetch_next_page(self):
-        next_items = self.next_request(self.next)
+        next_items = self._next_request(self.next)
         self.result.extend(next_items.result)
         self.next = next_items.next
 
