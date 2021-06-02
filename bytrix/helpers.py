@@ -8,6 +8,7 @@ import requests
 def bitrix_method(func):
     def inner(self, *args, **kwarg):
         package = self.package if hasattr(self, 'package') else inspect.getmodule(func).__package__
+        package = package.replace('bytrix.', '')
         method = '.'.join([package, func.__name__])
         return func(self, *args, method, **kwarg)
 
