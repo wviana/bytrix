@@ -60,10 +60,10 @@ class BitrixResponse:
 
 class BitrixApiMixin:
     def __init__(self, url):
-        self.url = url
+        self._url = url
 
-    def call_method(self, method, params):
-        request_url = '/'.join([self.url, method])
+    def _call_method(self, method, params):
+        request_url = '/'.join([self._url, method])
         response = requests.post(request_url, json=params)
         response.raise_for_status()
         response = response.json()
