@@ -69,9 +69,10 @@ class BitrixApiMixin:
         response = response.json()
 
         if 'next' in response:
-
             def next_request(start):
                 next_params = {**params, 'start':start}
-                return self.call_method(method, next_params)
+                return self._call_method(method, next_params)
+        else:
+            next_request = None
 
         return BitrixResponse(response, next_request)
