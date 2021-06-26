@@ -10,6 +10,7 @@ jedi = "*"
 pynvim = "*"
 ipdb = "*"
 rope = "*"
+responses = "*"
 
 [packages]
 requests = "*"

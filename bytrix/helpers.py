@@ -1,6 +1,7 @@
 import inspect
 import reprlib
 from collections import namedtuple
+from typing import Dict, Any
 
 import requests
 
@@ -20,6 +21,7 @@ class BitrixResponse:
         self._repr = f'BitrixResponse({reprlib.repr(raw_response)})'
         self.result = raw_response['result']
         self.time = raw_response['time']
+        self._raw_response = raw_response
 
         if next_request:
             self._next_request = next_request
@@ -47,10 +49,10 @@ class BitrixResponse:
         yield from iter(self.result)
 
         if self._next_request:
-            while len(self) < self.total:
+            while len(self.result) < self.total:
                 begin = len(self.result)
                 self._fetch_next_page()
-                yield from iter(self[begin:])
+                yield from iter(self.result[begin:])
 
     def _fetch_next_page(self):
         next_items = self._next_request(self.next)
@@ -62,17 +64,17 @@ class BitrixApiMixin:
     def __init__(self, url):
         self._url = url
 
-    def _call_method(self, method, params):
+    def _call_method(self, method: str, params: Dict[Any, Any]) -> BitrixResponse:
         request_url = '/'.join([self._url, method])
         response = requests.post(request_url, json=params)
         response.raise_for_status()
-        response = response.json()
+        body = response.json()
 
-        if 'next' in response:
+        if 'next' in body:
             def next_request(start):
                 next_params = {**params, 'start':start}
                 return self._call_method(method, next_params)
         else:
             next_request = None
 
-        return BitrixResponse(response, next_request)
+        return BitrixResponse(body, next_request)
